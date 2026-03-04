@@ -21,9 +21,12 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @Composable
-fun authorization() {
+fun authorization(status: Status) {
+    if (status.screens != Screens.LOGIN)
+        return
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     Box(modifier = Modifier.background(Color.LightGray)) {
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -37,7 +40,7 @@ fun authorization() {
                 placeholder = {Text("Пароль")})*/
             Row(horizontalArrangement = Arrangement.SpaceBetween){
                 Column {
-                    TextButton(onClick = {}, shape = RectangleShape) {
+                    TextButton(onClick = {status.screens = Screens.REGISTRATION}, shape = RectangleShape) {
                         Text("Создать аккаунт")
                     }
                 }
