@@ -1,56 +1,57 @@
 package org.example.project
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.compose_multiplatform
 
 @Composable
-fun authorization(status: Status) {
-    if (status.screens != Screens.LOGIN)
-        return
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
 
-    Box(modifier = Modifier.background(Color.LightGray)) {
-        Column(modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally){
-            TextField(value = login, onValueChange = {newText -> login = newText},
-                placeholder = {Text("Логин")})
-            TextField(value = password, onValueChange = {newText -> password = newText},
-                visualTransformation = PasswordVisualTransformation('*'),
-                placeholder = {Text("Пароль")})
-            /*SecureTextField(state = state,
-                placeholder = {Text("Пароль")})*/
-            Row(horizontalArrangement = Arrangement.SpaceBetween){
-                Column {
-                    TextButton(onClick = {status.screens = Screens.REGISTRATION}, shape = RectangleShape) {
-                        Text("Создать аккаунт")
-                    }
-                }
-                Column {
-                    TextButton(onClick = {}, shape = RectangleShape) {
-                        Text("Войти")
-                    }
-                }
-            }
-        }
+fun authorization(windows:  MutableState<Windows>, db: DataBase) {
+    if(windows.value != Windows.AUTHORIZATION) return
+
+    val log = remember{mutableStateOf("")}
+    val pas = remember{mutableStateOf("")}
+
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
+        TextField(
+            value = log.value,
+            textStyle = TextStyle(fontSize = 15.sp),
+            onValueChange = {newText -> log.value = newText},
+            label = {Text(text = "login")}
+        )
+        TextField(
+            value = pas.value,
+            textStyle = TextStyle(fontSize = 15.sp),
+            onValueChange = {newText -> pas.value = newText},
+            label = {Text(text = "password")}
+        )
+        TextButton(onClick = {}){Text("log in")}
+        TextButton(onClick = {windows.value = Windows.REGISTRATION})
+        {Text("sign up")}
     }
 
 }
