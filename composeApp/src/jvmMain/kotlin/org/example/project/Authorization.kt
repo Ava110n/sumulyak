@@ -49,7 +49,9 @@ fun authorization(windows:  MutableState<Windows>, db: DataBase) {
             onValueChange = {newText -> pas.value = newText},
             label = {Text(text = "password")}
         )
-        TextButton(onClick = {}){Text("log in")}
+        TextButton(onClick = {
+            db.select(log.value, pas.value)
+        }){Text("log in")}
         TextButton(onClick = {windows.value = Windows.REGISTRATION})
         {Text("sign up")}
     }
