@@ -70,7 +70,7 @@ class DataBase{
             connection.prepareStatement(selection).use {
                 it.setString(1, login)
                 it.setString(2, password)
-                it.executeQuery(selection).use { itRes ->
+                it.executeQuery().use { itRes ->
                     if(itRes.next()){
                         println(itRes.getString(1))
                         println(itRes.getString(2))
